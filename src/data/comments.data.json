@@ -1,0 +1,18 @@
+[
+    {
+        "id":"comment1",
+        "post":"post1",
+        "commentCreator":"2" ,
+        "content":"lo comenta el 2" ,
+        "media": "",
+        "gif":":O" 
+    },
+    {
+        "id":"comment2",
+        "post":"post2",
+        "commentCreator":"2" ,
+        "content":"lo comenta el 2 post 2" ,
+        "media": "",
+        "gif":":O" 
+    }
+  ]

@@ -1,0 +1,95 @@
+[
+    {
+      "id":"1",
+      "name": "test1",
+      "email": "test1@test.com",
+      "password": "12345678",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD_6yVe11JHx8zPnPsoKVQZdC_7XIamyp7FA&usqp=CAU",
+      "profile": "public",
+      "posts": [
+        "id_post1"
+      ],
+      "follows": {
+        "follower": "2",
+        "following": "3"
+      },
+      "likes": "Iid_like_1",
+      "comments": [
+        "id_comment_1"
+      ],
+      "messages": [
+        "id_message_1"
+      ],
+      "notifications": [
+        "id_not_1"
+      ]
+    },
+    {
+      "id":"2",
+      "name": "test2",
+      "email": "test2@test.com",
+      "password": "12345678",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD_6yVe11JHx8zPnPsoKVQZdC_7XIamyp7FA&usqp=CAU",
+      "profile": "public",
+      "posts": [
+        "id_post1"
+      ],
+      "follows": {
+        "follower": "3",
+        "following": "1"
+      },
+      "likes": "Iid_like_1",
+      "comments": [
+        "id_comment_1"
+      ],
+      "messages": [
+        "id_message_1"
+      ],
+      "notifications": [
+        "id_not_1"
+      ]
+    },
+    {
+      "id":"3",
+      "name": "test3",
+      "email": "test3@test.com",
+      "password": "12345678",
+      "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD_6yVe11JHx8zPnPsoKVQZdC_7XIamyp7FA&usqp=CAU",
+      "profile": "public",
+      "posts": [
+        "id_post1"
+      ],
+      "follows": {
+        "follower": "1",
+        "following": "2"
+      },
+      "likes": "Iid_like_1",
+      "comments": [
+        "id_comment_1"
+      ],
+      "messages": [
+        "id_message_1"
+      ],
+      "notifications": [
+        "id_not_1"
+      ]
+    }
+  ]
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

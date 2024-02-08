@@ -1,0 +1,27 @@
+[
+    {   
+        "id":"post1",
+        "creator":"1",
+        "content":"soy el post 1",
+        "media":"media post 1",
+        "likesCount": 2,
+        "commentsCount": 1,
+        "gif": ";O",
+        "likes":"like_1",
+        "comments": ["comment_1"]
+    },
+    {   
+        "id":"post2",
+        "creator":"2",
+        "content":"soy el post 2",
+        "media":"media post 2",
+        "likesCount": 1,
+        "commentsCount": 1,
+        "gif": ";O",
+        "likes":"like_2",
+        "comments": ["comment_2"]
+    }
+]
+    
+        
+    

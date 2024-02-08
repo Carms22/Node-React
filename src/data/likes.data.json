@@ -1,0 +1,14 @@
+[
+    {    
+    "userWhoLikes":"1",
+    "like":"post2"
+    },
+    {    
+    "userWhoLikes":"1",
+    "like":"post1"
+    },
+    {    
+    "userWhoLikes":"3",
+    "like":"post1"
+    }
+]
