@@ -1,5 +1,7 @@
 import { Router } from "express";
-import { register, login, logout, profile, myHome, editProfile, followingList, followersList, follow, search } from "../controllers/auth.controller.js";
+import { register, login, logout, profile,
+     myHome, editProfile, followingList, followersList, 
+     follow, search } from "../controllers/auth.controller.js";
 import { isAuthenticated } from "../middleware/validatedToken.js";
 
 

@@ -44,10 +44,11 @@ const userSchema = new mongoose.Schema({
       delete ret._id;
       delete ret.password;
 
-      return ret
     }
   }
 },
+
+
 {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
@@ -105,10 +106,8 @@ justOne: true,
 });
 
 
-
-
-/*
-UserSchema.pre('save', function(next){
+userSchema.pre('save', function(next){
+  console.log(`userSchema.pre('save' ${this.password}`);
   if(this.isModified('password')){
     bcrypt.hash(this.password, SALT_ROUNDS)
       .then(hash =>{
@@ -121,8 +120,10 @@ UserSchema.pre('save', function(next){
 })
 
 
-UserSchema.methods.checkPassword = function(passwordToCompare) {
+userSchema.methods.checkPassword = function(passwordToCompare) {
+  console.log(`passwordToCompare ${passwordToCompare}`);
+  console.log(`this password ${this.password}`);
   return bcrypt.compare(passwordToCompare, this.password);
 }
-*/
+
 export default mongoose.model('User', userSchema);

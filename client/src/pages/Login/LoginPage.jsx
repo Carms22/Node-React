@@ -1,99 +1,109 @@
 import { useFormik } from "formik";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import AuthContext from "../../context/AuthContext"
-
-import LoginSchema from "./LoginSchema";
+import { Navigate } from "react-router-dom";
+import FormControl from "../../components/FormControl/FormControl";
 import Input from "../../components/Input";
-import { userLogin } from "../../services/AuthServices";
+import AuthContext from "../../context/AuthContext";
+import { userLogin as loginService } from "../../services/AuthServices";
 
+import loginSchema  from "../Login/LoginSchema";
 
-function Login() {
-  console.log('entro en login page');
-  const { state } = useLocation();
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+const initialValues = {
+  email: "",
+  password: "",
+};
 
-  const INITIAL_VALUES = {
-    email: (state && state.email) || '',
-    password: ''
+const Login = () => {
+  const { login, currentUser } = useContext(AuthContext);
+  if (currentUser) {
+    return <Navigate to="/profile" />;
   }
- 
   const {
-    values, handleChange, handleBlur, handleSubmit, errors,
-    isSubmitting, setSubmitting, setFieldError
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    isSubmitting,
+    handleSubmit,
+    setSubmitting,
+    setFieldError,
   } = useFormik({
-    initialValues: INITIAL_VALUES,
-    onSubmit: onSubmit,
-    validationSchema: LoginSchema,
-    validateOnBlur: false,
+    initialValues: initialValues,
+    validateOnBlur: true,
     validateOnChange: false,
+    validationSchema: loginSchema,
+    onSubmit:  onSubmit
   })
-   
-  
-  
-  function onSubmit (values) {
-    for(let prop in values){
-      console.log(`entro en onSubmit con los valores ${values[prop]}`);
+
+ 
+
+  function onSubmit (values)  {
+      console.log( `loginServices ${values}`);
+      loginService({ email: values.email, password: values.password }) // llama a /login del back pasandole el email y la password
+        .then((response) => {
+          // Usar el login del contexto
+          login(response.accessToken);
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            setFieldError("email", err?.response?.data?.message);
+          } else {
+            setFieldError("email", err.message);
+          }
+          setSubmitting(false);
+        });
+      // Peticion al back para que me devuelva el JWT
     }
-    
-      userLogin(values)
-        .then(({ accessToken }) => {
-          console.log(`entro en onSubmit en el then acce ${values}`)
-          login(accessToken, () => {
-            navigate('/profile')
-          })
-      })
-      .catch(err => {
-        err.response.data &&
-          Object.keys(err.response.data.errors)
-            .forEach((errorKey) => {
-              setFieldError(errorKey, err.response.data.errors[errorKey])
-            })
-      })
-      .finally(() => {
-        setSubmitting(false)
-      })
-  }
 
-  return ( 
-    <div className="Login container">
-      <div className="start-div">
-        <div className="login-box">
-          <h1>Login</h1>
-          <form onSubmit={handleSubmit}> 
-            <Input className="login-input"
-              label="Email"
-              placeholder="Introduce your email"
-              type="email"
-              name="email"
-              id="email"
-              value={values.email}
-              onChange={handleChange}
-              error={errors.email}
-              onBlur={handleBlur}
-            />
+  return (
+    <div>
+      <h1>Login</h1>
 
-              <Input
-                label="Password"
-                placeholder="Write your password"
-                type="password"
-                name="password"
-                id="password"
-                value={values.password}
-                onChange={handleChange}
-                error={errors.password}
-                onBlur={handleBlur}
-              />
-            <button type="submit" className="button">
-              {isSubmitting ? 'Loading' : 'Login'}
-            </button>
-          </form>
-        </div>
+      <form onSubmit={handleSubmit}>
+        <FormControl
+          text="Email"
+          error={touched.email && errors.email}
+          htmlFor="email"
+        >
+          <Input
+            id="email"
+            name="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            error={touched.email && errors.email}
+            placeholder="Enter your email..."
+          />
+        </FormControl>
 
-      </div>
+        <FormControl
+          text="Password"
+          error={touched.password && errors.password}
+          htmlFor="password"
+        >
+          <Input
+            id="password"
+            name="password"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+            error={touched.password && errors.password}
+            placeholder="Enter your password..."
+            type="password"
+          />
+        </FormControl>
+
+        <button
+          className="btn btn-primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
     </div>
-   );
-}
+  );
+};
 
 export default Login;

@@ -1,85 +1,58 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { getCurrentUser, userLogin } from "../services/AuthServices";
-import { getAccessToken, setToken, logout } from "../store/AccessTokenStore";
-import  verifyJWT  from '../helper/jwtHelper.js'
-
-
-//createContext() creates an empty context object that will be used to share the authentication state 
-//and functions between components.
-const AuthContext = createContext();//para crear un provider, componente q engloba a otros
-
-const useAuth = () => {
-    const context = useContext(AuthContext);
-    if(!context){
-        throw new Error('useAuth must be use within an AuthProvider')
-    }
-    return context;
-}//hook que hace uso del contexto
-
-//Provides que engloba a otros, lo que permite pasarle a los hijos 
-//la información contenida en la propiedad value={}
-const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState();//usuario q va a poder ser leido en toda la aplicación
-    console.log('antes de pasar por isAuthenticated');
-
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-    const getUser = () => {
-        getCurrentUser()
-          .then(user => {
-            console.log(`entro en getUser use--> ${user}`);
-            setUser(user)
-            setIsAuthenticated(true)
-            // cb && cb() Callback por si queremos hacer algo justo al traernos el usuario
-          })
-      }
-
-    const login = async () => {
-
-        console.log(`entro en login token-->$`);
-        try {
-            console.log(`entro en login try`);
-            const data = await userLogin()
-            console.log(`data del userLogin ${data}`);
-            const tokenSet = await setToken()
-            console.log(tokenSet);
-            const userFound = await getUser()
-                console.log("User in login",userFound)
-            
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        if (getAccessToken()) {
-            console.log(getAccessToken());
-          if (!verifyJWT(getAccessToken())) {
-            logout()
-              .then( ()=> console.log("Logout"))
-          } else {
-            getUser()
-          }
-        } else {
-            setIsAuthenticated(true)
-        }
-      }, [])
+import {createContext, useCallback, useEffect, useMemo, useState } from "react";
+import { getAccessToken, setAccessToken } from "../store/AccessTokenStore";
+import { getCurrentUser as getCurrentUserService } from "../services/UserServices";
+import { useNavigate } from "react-router-dom";
   
-    //devolvemos la constante del "createProvider".Provider con la propiedad value={} que será un objeto con todo
-    // lo que queremos exportar
-    return(
-        <AuthContext.Provider 
-            value={{
-                login,
-                user,
-                isAuthenticated,
-                setIsAuthenticated
-            }}
-        >
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
-export {AuthProvider, useAuth};
+const AuthContext = createContext();
 export default AuthContext;
+  
+const AuthProvider = ({ children }) => {
+    const navigate = useNavigate();
+  
+    const [currentUser, setCurrentUser] = useState(null); // El usuario en sesión
+    const [isAuthLoaded, setIsAuthLoaded] = useState(false); // Para saber si ya tengo usuario o al menos lo he comprobado
+  
+    const getCurrentUser = useCallback((callback) => {
+      getCurrentUserService() // llama a /users/me para que con el token, me traiga a mi usuario, se lo enchufe al contexto y toda mi aplicación sepa quien es
+        .then((user) => {
+          setCurrentUser(user);
+          setIsAuthLoaded(true);
+          callback && callback(); // Para cuando necesite redirigir despues de un login
+        });
+    }, []);
+  
+    const login = useCallback(
+      (token) => {
+        const navigateToProfile = () => {
+          navigate("/profile");
+        };
+        // Lo guaaardo
+        setAccessToken(token);
+        getCurrentUser(navigateToProfile);
+      },
+      [getCurrentUser]
+    );
+  
+    useEffect(() => {
+      // UseEffect se ejecuta al menos una vez despues del primer render
+      if (getAccessToken()) {
+        getCurrentUser();
+      } else {
+        setIsAuthLoaded(true);
+      }
+    }, [getCurrentUser]);
+  
+    const value = useMemo(() => {
+      return {
+        currentUser, // Usuario que está en sesión
+        isAuthLoaded, // Si ya intenté saber si hay usuario en sesión
+        login, // login
+      };
+    }, [currentUser, isAuthLoaded, login]);
+  
+    return <AuthContext.Provider value={value}>
+                {children}
+            </AuthContext.Provider>;
+  };
+
+export {AuthProvider};

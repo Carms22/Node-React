@@ -1,6 +1,8 @@
 import User from "../schemas/User.mondel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import createError from "http-errors";
+import { StatusCodes } from "http-status-codes";
 import {TOKEN_SECRET} from "../config.js"
 import Follow from "../schemas/Follow.model.js";
 
@@ -48,7 +50,60 @@ export const register = async (req, res) =>{
    
 }
 
-export const login = async (req, res) =>{
+
+// { "email": "carlos@email.com", "password": "12345678" }
+
+export const login = (req, res, next) => {
+  const loginError = createError(
+    StatusCodes.UNAUTHORIZED,
+    "Email or password incorrect"
+  );
+
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+
+    return next(loginError);
+  }
+
+  // Check email
+  User.findOne({ email })
+    .then((user) => {
+        console.log(`entro en findOne user ${user}`);
+      if (!user) {
+        return next(loginError);
+      }
+      console.log(`entro en password del user q me da ${user.password}`);
+      console.log(`entro en password del password del front ${password}`);
+
+      // Check password
+      return user.checkPassword(password).then((match) => {
+        console.log(`entro en checkPassword ${match}`);
+        if (!match) {
+          return next(loginError);
+        }
+
+        // Emitir y firmar un token jwt con la info del usuario
+        const token = jwt.sign(
+          { id: user.id },
+          process.env.JWT_SECRET || "test",
+          {
+            expiresIn: "1h",
+          }
+        );
+
+        res.json({ accessToken: token });
+      });
+    })
+    .catch(next);
+};
+
+
+
+
+
+
+/*export const login = async (req, res) =>{
     const {email, password} = req.body;
     console.log(req.body);
 
@@ -93,7 +148,7 @@ export const login = async (req, res) =>{
         res.status(500).json({mesage: "User not found"})
     }
    
-};
+};*/
 
 export const profile = async (req, res ) => {
     // sacar los virtuales---post....

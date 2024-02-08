@@ -1,6 +1,4 @@
-import {BrowserRouter, Route, Routes, } from 'react-router-dom';
-import { AuthProvider} from './context/AuthContext';
-
+import { Route, Routes, } from 'react-router-dom';
 import RegisterPage from './pages/Register/Register';
 import ProtectedRoute from './components/misc/ProtectedRoute';
 import Login from './pages/Login/LoginPage';
@@ -11,10 +9,9 @@ import Login from './pages/Login/LoginPage';
 function App() {
 
   return (
-    <AuthProvider>
-      <BrowserRouter>
+
         <Routes>
-          <Route path='/' element={
+          <Route path='/hom' element={
             <ProtectedRoute>
           <h1>Home page</h1>
           </ProtectedRoute>
@@ -35,8 +32,7 @@ function App() {
           <Route path='/comment' element={<h1>comment</h1>}/>
           <Route path='/' element={<h1>Home page</h1>}/>
         </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+
 
   )
 }
