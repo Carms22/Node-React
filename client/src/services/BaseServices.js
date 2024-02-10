@@ -3,13 +3,15 @@ import { getAccessToken, logout } from "../store/AccessTokenStore";
 
 const INVALID_STATUS_CODES = [401];
 
-export const createHttp = (useAccessToken = false) => {
+const createHttp = (useAccessToken = false) => {
+  console.log(`entro en createHttp`);
   // Si le pongo true, manda el token si le pone false no hay cabecera Authorization
   const http = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
   });
-
+  
   if (useAccessToken) {
+    console.log(`entro en createHttp useAccessToken--> ${useAccessToken}`);
     http.interceptors.request.use(
       (config) => {
         // Si alguien crea una instancia de createHttp pasando useAccesToken a true, quiere decir que esa peticion requiere esta autenticada. Por lo que intento coger el token de la store y meterselo en la cabecera Authorization
@@ -41,6 +43,7 @@ export const createHttp = (useAccessToken = false) => {
 
   return http;
 };
+export default createHttp;
 
 /*const createHttp = (useAccessToken = false) => {
   const http = axios.create({

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-//const Score = require('./Score.model')
 
 const ROLLUSER =['Driver', 'Buddy']
 const EMAIL_PATTERN = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -27,16 +26,12 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required.'],
     match: [PASSWORD_PATTERN, 'Password must contain at least 8 characters.']
   },
-  image: {
-    type: String,
-    default: "https://img2.freepng.es/20180227/xqe/kisspng-cartoon-drawing-cartoon-car-5a9530ed8f4b48.9168319215197268295869.jpg"
-  },
   profile:{
     type: String,
     default: "public"
   }
-},
-{
+},{ 
+  timestamps: true,
   toJSON: {
     virtuals: true,
     transform: (doc, ret) => {
@@ -46,14 +41,13 @@ const userSchema = new mongoose.Schema({
 
     }
   }
-},
+}/*,
 
 
 {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
-  },
-  { timestamps: true}
+  }  */
 )
 
 userSchema.virtual("posts", {
@@ -118,7 +112,6 @@ userSchema.pre('save', function(next){
     next()
   }
 })
-
 
 userSchema.methods.checkPassword = function(passwordToCompare) {
   console.log(`passwordToCompare ${passwordToCompare}`);

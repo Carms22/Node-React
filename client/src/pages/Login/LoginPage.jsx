@@ -14,6 +14,7 @@ const initialValues = {
 };
 
 const Login = () => {
+  console.log(`entro en Login`);
   const { login, currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Navigate to="/profile" />;

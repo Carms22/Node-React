@@ -10,6 +10,7 @@ function Input({type="text", label, placeholder, name, id,value, error, onChange
           name={name} id={id} type={type}
           placeholder={placeholder} value={value}
           onChange={onChange} onBlur={onBlur}
+        
         />
         {error && (
           <div className="invalid-feedback">

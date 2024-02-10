@@ -14,7 +14,3 @@ export const createUser = (body) =>{
   return http.post("/register", body).then((res) => res);
 };
 
-export const getCurrentUser = () =>{ 
-  console.log(localStorage);
-  return http.get("/profile",{ withCredentials: true }).then((res) => res);
-}

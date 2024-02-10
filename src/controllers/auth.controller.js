@@ -35,7 +35,6 @@ export const register = async (req, res) =>{
             },
             (err, token) => {
                 if(err) console.log(err);
-                res.cookie('token', token)
                 res.json(userSaved)
             }
         )
@@ -62,7 +61,6 @@ export const login = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-
     return next(loginError);
   }
 
@@ -73,9 +71,6 @@ export const login = (req, res, next) => {
       if (!user) {
         return next(loginError);
       }
-      console.log(`entro en password del user q me da ${user.password}`);
-      console.log(`entro en password del password del front ${password}`);
-
       // Check password
       return user.checkPassword(password).then((match) => {
         console.log(`entro en checkPassword ${match}`);
@@ -99,61 +94,19 @@ export const login = (req, res, next) => {
 };
 
 
-
-
-
-
-/*export const login = async (req, res) =>{
-    const {email, password} = req.body;
-    console.log(req.body);
-
-    try {
-        const loginError ="Email or password are not valid";
-        
-        if(!email) res.status(401).json({mesage: loginError});
-        const userFound = await User.findOne({email});
-        console.log(`userFound ${userFound}`);
-     
-        const isMach = await bcrypt.compare(password, userFound.password);
-
-        console.log(`isMach ${isMach}`);
-        if(!isMach) {
-            res.status(401).json({mesage: loginError})
-        }else{
-            jwt.sign(
-                {
-                  id: userFound._id,
-                },
-                  TOKEN_SECRET,
-                {
-                  expiresIn: '24h'
-                },
-                (err, token) => {
-                    
-                    if(err) console.log(err);
-                    res.json({ accessToken: token });
-                    console.log(token);
-                    
-                    res.json(userFound)
-                    res.cookie('token', token, {
-                        sameSite: 'none',
-                    })
-                    res.json(userFound)
-                }
-            )
-        }
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({mesage: "User not found"})
-    }
-   
-};*/
-
-export const profile = async (req, res ) => {
-    // sacar los virtuales---post....
-    //Info del user y mis post y a quien sigo
-    //post.find({creator: req.currentUser.id}).populate(creator).populate(comments).populate(likes)
+export const profile = async (req, res,next ) => {
+    console.log(`profile --> ${req.currentUserId}`);
+    User.findById(req.currentUserId)
+    .then((user) => {
+      if (!user) {
+        next(createError(402, "User not found"));
+      } else {
+        res.json(user);
+      }
+    })
+    .catch(next);
+/*
+    console.log(`profile`);
     const {id} = req.currentUser;
     const userFound = await User.findById(id)
     .populate('posts')
@@ -162,7 +115,7 @@ export const profile = async (req, res ) => {
     if(!userFound) return res.status(400).json({message: 'user not found'});
 
     return res.json(userFound)
-
+*/
 }
 export const editProfile = async (req, res ) => {
     const userID = req.currentUser.id;

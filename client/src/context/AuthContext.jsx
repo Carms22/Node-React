@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export default AuthContext;
   
 const AuthProvider = ({ children }) => {
+    console.log(`entro en AuthProvider`);
     const navigate = useNavigate();
   
     const [currentUser, setCurrentUser] = useState(null); // El usuario en sesión
@@ -23,6 +24,7 @@ const AuthProvider = ({ children }) => {
   
     const login = useCallback(
       (token) => {
+        console.log(`entro en AuthProvider login--token ${token}`);
         const navigateToProfile = () => {
           navigate("/profile");
         };
