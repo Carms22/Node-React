@@ -20,7 +20,9 @@ function UserDetailScreen() {
       .then(() => console.log("you just logout"))
       .catch(err => console.log(err))
   }
-
+  function handleGoHome(){
+    navigate(`/user/${user.id}`)
+  }
 
   //Delete post
   function handleDelete(id){
@@ -64,11 +66,14 @@ function UserDetailScreen() {
             <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
                 onClick={handleLogout}>Logout
             </button>
+            <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
+                onClick={handleGoHome}>Go Home
+            </button>
         </div>
         
         :
         <>
-            <h6>User not found</h6>
+            <h6 className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>User not found</h6>
         </>
 
     }
@@ -89,7 +94,7 @@ function UserDetailScreen() {
              )
             :
             <>
-                <h6>You have not posts yet</h6>
+                <h6 className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>You have not posts yet</h6>
             </>
             }
         </div>

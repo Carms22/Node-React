@@ -22,7 +22,7 @@ router.get("/followers/:id",isAuthenticated, followersList);
 
 
 //HOME
-router.get('/myHome', isAuthenticated, myHome );
+router.get('/user/:id', isAuthenticated, myHome );
 router.get("/search",isAuthenticated, search);
 
 

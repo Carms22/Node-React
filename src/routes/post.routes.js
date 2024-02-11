@@ -20,10 +20,5 @@ router.put('/posts/:id', isAuthenticated, editPosts )
 //LIKE
 router.put('/like/:id',isAuthenticated, like)
 
-//SEARCH
-//router.get("/list", isAuthenticated, search);
-//igual q my home????
-router.get('/explore', isAuthenticated, editPosts )
-
 
 export default router;

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a full-stack application built with Node.js, Express.js, Axios, Mongoose, npm, and React, using Vite for the frontend.
+This is a full-stack application built with Node.js, Express.js, Axios, JWT, Mongoose, npm, and React, using Vite for the frontend.
 
 ## Overview
 
@@ -11,7 +11,7 @@ This application provides a basic setup for building a full-stack web applicatio
 ## Features
 
 - User authentication (login, register)
-- API endpoints for user management
+- API endpoints for user management (Register, login, create-edit-delete post, create comment, like, follow, searchBar)
 - Integration with MongoDB for data storage
 - React frontend with a modern build setup using Vite
 - Axios for making HTTP requests between frontend and backend
@@ -37,3 +37,26 @@ This application provides a basic setup for building a full-stack web applicatio
 5. Open your browser and visit `http://localhost:5173` to view the application.
 
 ## Folder Structure
+├── backend/ # Backend server files
+│ ├── controllers/ # Request handlers/controllers
+│ ├── middleware/ # Request handlers/middleware
+│ ├── schemas/ # Database models
+│ ├── routes/ # Route definitions
+│ ├── config.js # Configuration files
+│ ├── db.js # Database connection setup
+│ └── server.js # Backend server entry point
+│
+├── frontend/ # Frontend React app
+│ ├── public/ # Static assets
+│ ├── src/ # Source files
+│ │ ├── components/ # Reusable React components
+│ │ ├── pages/ # Application pages
+│ │ ├── services/ # Service modules (e.g., API requests)
+│ │ ├── App.jsx # Main React component
+│ │ ├── index.jsx # React entry point
+│ │ └── ...
+│ ├── package.json # Frontend dependencies and scripts
+│ ├── vite.config.js # Vite configuration
+│ └── ...
+│
+└── README.md # Project documentation

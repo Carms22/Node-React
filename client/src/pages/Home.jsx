@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 //import moment from 'moment';
 import {  useParams } from 'react-router-dom';
-import { myHome, followingList, follow, search} from '../services/UserServices';
+import { myHome, follow, search} from '../services/UserServices';
 import { createComment } from '../services/CommentServices';
 import Card from '../components/Card';
 import Like from '../components/Like';
@@ -104,14 +104,14 @@ function UserDetailScreen() {
              )
             :
             <>
-                <h6>You have not posts yet</h6>
+                <h6 className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>You have not posts yet</h6>
             </>
             }
         </div>
         
         :
         <>
-            <h6>User not found</h6>
+            <h6 className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>User not found</h6>
         </>
 
     }

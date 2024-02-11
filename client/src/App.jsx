@@ -9,9 +9,9 @@ import Home from './pages/Home'
 function App() {
 
   return (
-
+        
         <Routes>
-          <Route path='/home' element={ <Home/> }/>
+          <Route path='/user/:id' element={ <Home/> }/>
           <Route path='/register' element={<RegisterPage values/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/profile' 

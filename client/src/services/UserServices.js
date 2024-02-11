@@ -2,15 +2,11 @@ import createHttp from "./BaseServices";
 
 const http = createHttp(true);
 
-export const getDetail = (id) => 
-  http.get(`/users/${id}`).then((res) => res);
-
 export const getCurrentUser = () =>{ 
-  console.log(localStorage);
   return http.get("/profile").then((res) => res);
 }
-export const myHome = () =>{ 
-  return http.get("/home").then((res) => res);
+export const myHome = (id) =>{ 
+  return http.get(`/user/${id}`).then((res) => res);
 }
 
 export const follow = (id) => 

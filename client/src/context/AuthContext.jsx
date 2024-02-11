@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
   
     const login = useCallback(
       (token) => {
-        console.log(`entro en AuthProvider login--token ${token}`);
+        console.log(`entro en AuthProvider login--token`);
         const navigateToProfile = () => {
           navigate("/profile");
         };

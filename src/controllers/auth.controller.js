@@ -62,7 +62,6 @@ export const login = (req, res, next) => {
   // Check email
   User.findOne({ email })
     .then((user) => {
-        console.log(`entro en findOne user ${user}`);
       if (!user) {
         return next(loginError);
       }
@@ -131,7 +130,7 @@ export const myHome = async (req, res) => {
             }
         })
     console.log(`followingUsers ${followingUsers}`);
-    const userFound = await User.findById(id)
+    const userFound = await User.findById(userID)
      // Esto popula la relación 'follows'
     .populate({
         path: 'follows',
