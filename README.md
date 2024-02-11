@@ -38,26 +38,26 @@ This application provides a basic setup for building a full-stack web applicatio
 
 ## Folder Structure
 
-*node-react-app/
-*├── backend/                   # Backend server files
-*│   ├── controllers/           # Request handlers/controllers
-*│   ├── models/                # Database models
-*│   ├── routes/                # Route definitions
-*│   ├── config.js              # Configuration files
-*│   ├── db.js                  # Database connection setup
-*│   └── server.js              # Backend server entry point
-*│
-*├── frontend/                  # Frontend React app
-*│   ├── public/                # Static assets
-*│   ├── src/                   # Source files
-*│   │   ├── components/        # Reusable React components
-*│   │   ├── pages/             # Application pages
-*│   │   ├── services/          # Service modules (e.g., API requests)
-*│   │   ├── App.jsx            # Main React component
-*│   │   ├── index.jsx          # React entry point
-*│   │   └── ...
-*│   ├── package.json           # Frontend dependencies and scripts
-*│   ├── vite.config.js         # Vite configuration
-*│   └── ...
-*│
-*└── README.md                  # Project documentation
+   - node-react-app/
+   - ├── backend/                   # Backend server files
+   - │   ├── controllers/           # Request handlers/controllers
+   - │   ├── models/                # Database models
+   - │   ├── routes/                # Route definitions
+   - │   ├── config.js              # Configuration files
+   - │   ├── db.js                  # Database connection setup
+   - │   └── server.js              # Backend server entry point
+   - │
+*   - ├── frontend/                  # Frontend React app
+*   - │   ├── public/                # Static assets
+*   - │   ├── src/                   # Source files
+*   - │   │   ├── components/        # Reusable React components
+*   - │   │   ├── pages/             # Application pages
+*   - │   │   ├── services/          # Service modules (e.g., API requests)
+*   - │   │   ├── App.jsx            # Main React component
+*   - │   │   ├── index.jsx          # React entry point
+*   - │   │   └── ...
+*   - │   ├── package.json           # Frontend dependencies and scripts
+*   - │   ├── vite.config.js         # Vite configuration
+*   - │   └── ...
+*   - │
+*   - └── README.md                  # Project documentation
