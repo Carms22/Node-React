@@ -9,6 +9,9 @@ export const getCurrentUser = () =>{
   console.log(localStorage);
   return http.get("/profile").then((res) => res);
 }
+export const myHome = () =>{ 
+  return http.get("/home").then((res) => res);
+}
 
 export const follow = (id) => 
   http.put(`/follow/${id}`).then((res) => res);

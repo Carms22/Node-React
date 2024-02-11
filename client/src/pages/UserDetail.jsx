@@ -21,9 +21,9 @@ function UserDetailScreen() {
       .catch(err => console.log(err))
   }
 
+
   //Delete post
   function handleDelete(id){
-    console.log(`id en handledelete ${id}`);
     deletePosts(id)
       .then(() => {
         console.log("Post has been deleted")
@@ -61,7 +61,9 @@ function UserDetailScreen() {
         {user ? 
         <div className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>
             <h2 className='col-12'>Welcome to your profile {user.name}</h2>
-            <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" onClick={handleLogout}>Logout</button>
+            <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
+                onClick={handleLogout}>Logout
+            </button>
         </div>
         
         :
@@ -75,8 +77,14 @@ function UserDetailScreen() {
             {posts.length > 0 ? posts.map((post) => 
                 <div className='m-10 max-w-md p-5 rounded-md  bg-slate-600'  key={post._id}>
                     <Card className='row card-body' {...post} key={post._id} />
-                    <button className='rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800' onClick={() => handleDelete(post._id)}>Delete</button>
-                    <button className='rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800' onClick={() => handleUpdate(post._id)}>Edit</button>
+                    <button className='rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800' 
+                        onClick={() => handleDelete(post._id)}>
+                        Delete
+                    </button>
+                    <button className='rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800' 
+                        onClick={() => handleUpdate(post._id)}>
+                        Edit
+                    </button>
                 </div>
              )
             :

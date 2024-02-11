@@ -90,7 +90,6 @@ export const login = (req, res, next) => {
 
 
 export const profile = async (req, res,next ) => {
-    console.log(`profile --> ${req.currentUserId}`);
     User.findById(req.currentUserId)
     .populate('posts')
     .populate({path:'comments likes', options: {_recursed: true}})
@@ -119,12 +118,10 @@ export const logout = (req, res) =>{
     return res.sendStatus(200);
 }
 export const myHome = async (req, res) => {
-    const userID = req.currentUser.id;
-    
+    const userID = req.currentUserId;
+    console.log(`myHome userId ${userID}`);
     if(!userID)return res.status(404).json({message: "id not found"});
 
-    // del user coger los followings y de ellos sus post para ponerlos en mi home
-    //User.populate(followings).populate(post).populate comments
     const followingUsers = await Follow.find({follower: userID})
         .populate({
             path: 'following',
@@ -133,7 +130,7 @@ export const myHome = async (req, res) => {
                 populate: 'comments' // Esto popula la relación 'comments' dentro de 'posts'
             }
         })
-    console.log(followingUsers);
+    console.log(`followingUsers ${followingUsers}`);
     const userFound = await User.findById(id)
      // Esto popula la relación 'follows'
     .populate({
@@ -234,7 +231,6 @@ export const search = (req, res, next) => {
     const { searchInfo } = req.body;
     User.find({
       $and: [
-        { status: true },
         {name: { $regex: searchInfo, $options: "i" } }
       ]
     })
