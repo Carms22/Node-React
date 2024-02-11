@@ -7,7 +7,7 @@ import Comment from "../schemas/Comment.model.js";
 export const getPosts = async (req, res ) => {
 
   //busco los post del usuario autenticado
-   const posts =  await Post.find({creator: req.currentUser.id})
+   const posts =  await Post.find({creator: req.currentUserId})
    .populate({path: 'creator comments', options:{_recursed: true}})
    .populate({ 
     path: "comments",
@@ -20,14 +20,13 @@ export const getPosts = async (req, res ) => {
 
 export const createPosts = async (req, res ) => {
 
-    console.log('entro en create comment');
-    const { creator, content, likesCount, commentsCount, gif, media} = req.body;
+    const { creator, content, likesCount, commentsCount, media} = req.body;
+
     const newPost = new Post({
-        creator: req.currentUser.id,
+        creator: req.currentUserId,
         content,
         likesCount,
         commentsCount,
-        gif,
         media
     });
     const savedPost = await newPost.save();
@@ -55,6 +54,7 @@ export const editPosts = async (req, res ) => {
 };
 export const deletePosts = async (req, res ) => {
   const postID = req.params.id;
+  console.log(`postID ${postID}`);
     const post = await Post.findByIdAndDelete(postID);
     if(!post){
       return res.status(404).json({message: "post not found"});
@@ -62,35 +62,10 @@ export const deletePosts = async (req, res ) => {
       return res.json(post);
     };
 };
-//////
-export const explore = (req, res, next) => {
-  const userID = req.currentUser.id;
-  
-  Post.find()
-    .limit(50)
-    .populate("creator")
-    .then((posts) => {
-      posts.forEach((post) => {
-        post.hour = moment(post.createdAt).format('DD/MM/YY - hh:mm')
-        Like.findOne({
-          $and: [{ like: post._id }, { userWhoLikes: userID }],
-        })
-          .then((likeFound) => {
-            return (post.alreadyLiked = likeFound ? true : false);
-          })
-          .catch((err) => next(err));      
-      })
-    posts.sort((a, b) => {
-      return b.createdAt - a.createdAt
-    })
-    res.render("posts/explore", { posts });
-    })
-    .catch((err) => next(err));
-};
 
 export const like = (req, res, next) => {
   const {id} = req.params;
-  const userID = req.currentUser.id;
+  const userID = req.currentUserId;
 
   Like.findOne({ userWhoLikes: userID, like: id })
     .then((likeFound) => {

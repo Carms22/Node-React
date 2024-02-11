@@ -39,9 +39,6 @@ export const register = async (req, res) =>{
             }
         )
         }
-        
-
-        
 
     } catch (error) {
         res.status(500).json({mesage: error.mesage})
@@ -49,8 +46,6 @@ export const register = async (req, res) =>{
    
 }
 
-
-// { "email": "carlos@email.com", "password": "12345678" }
 
 export const login = (req, res, next) => {
   const loginError = createError(
@@ -97,6 +92,8 @@ export const login = (req, res, next) => {
 export const profile = async (req, res,next ) => {
     console.log(`profile --> ${req.currentUserId}`);
     User.findById(req.currentUserId)
+    .populate('posts')
+    .populate({path:'comments likes', options: {_recursed: true}})
     .then((user) => {
       if (!user) {
         next(createError(402, "User not found"));
@@ -105,17 +102,6 @@ export const profile = async (req, res,next ) => {
       }
     })
     .catch(next);
-/*
-    console.log(`profile`);
-    const {id} = req.currentUser;
-    const userFound = await User.findById(id)
-    .populate('posts')
-    .populate({path:'comments likes', options: {_recursed: true}});
-
-    if(!userFound) return res.status(400).json({message: 'user not found'});
-
-    return res.json(userFound)
-*/
 }
 export const editProfile = async (req, res ) => {
     const userID = req.currentUser.id;
@@ -219,7 +205,7 @@ export const followingList = (req, res, next) => {
 
 export const follow = (req, res, next) => {
     const { id } = req.params;
-    const userID = req.currentUser.id;
+    const userID = req.currentUserId;
 
     User.findOne({id}, {id: 1})
     .then((user) => {  
@@ -253,7 +239,7 @@ export const search = (req, res, next) => {
       ]
     })
     .then((users) => {
-        res.render('users/list', { users });
+        res.status(200).json(users)
     })
     .catch((err) => next(err))
 };

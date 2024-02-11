@@ -5,7 +5,6 @@ import FormControl from "../../components/FormControl/FormControl";
 import Input from "../../components/Input";
 import AuthContext from "../../context/AuthContext";
 import { userLogin as loginService } from "../../services/AuthServices";
-
 import loginSchema  from "../Login/LoginSchema";
 
 const initialValues = {
@@ -14,7 +13,6 @@ const initialValues = {
 };
 
 const Login = () => {
-  console.log(`entro en Login`);
   const { login, currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Navigate to="/profile" />;

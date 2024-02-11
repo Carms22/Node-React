@@ -3,8 +3,6 @@ import Follow from "../schemas/Follow.model.js";
 import Like from "../schemas/Like.model.js";
 import Comment from "../schemas/Comment.model.js";
 
-
-//CUD de comments y Messages
 export const createComment = async (req, res) => {
     const postID = req.params.id;
     const commentToCreate = req.body;
@@ -44,5 +42,3 @@ export const deleteComment = async (req, res) => {
     });
 
 }
-
-// get and delete de likes
