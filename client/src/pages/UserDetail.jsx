@@ -1,7 +1,7 @@
 import {logout} from '../store/AccessTokenStore'
 import { useCallback, useEffect, useState } from 'react';
 //import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCurrentUser} from '../services/UserServices';
 //import { deleteComment, createComment } from '../services/CommentServices';
 import Card from '../components/Card';
@@ -61,13 +61,16 @@ function UserDetailScreen() {
     <div className=''>
         
         {user ? 
-        <div className='m-10 max-w-md p-5 rounded-md  bg-slate-600'>
+        <div className='m-10 max-w-md p-5 rounded-md  bg-slate-600 '>
             <h2 className='col-12'>Welcome to your profile {user.name}</h2>
-            <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
+            <button className="rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
                 onClick={handleLogout}>Logout
             </button>
-            <button className="rounded px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
+            <button className="rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800" 
                 onClick={handleGoHome}>Go Home
+            </button>
+            <button className="rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800">
+              <Link to={`/user/${user.id}/posts`}>Create post</Link>
             </button>
         </div>
         
@@ -81,7 +84,7 @@ function UserDetailScreen() {
         <div className=''>
             {posts.length > 0 ? posts.map((post) => 
                 <div className='m-10 max-w-md p-5 rounded-md  bg-slate-600'  key={post._id}>
-                    <Card className='row card-body' {...post} key={post._id} />
+                    <Card className='' {...post} key={post._id} />
                     <button className='rounded m-2 px-4 pb-2 pt-2 text-xs uppercase text-white bg-slate-800' 
                         onClick={() => handleDelete(post._id)}>
                         Delete

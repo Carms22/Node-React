@@ -4,6 +4,7 @@ import ProtectedRoute from './components/misc/ProtectedRoute';
 import Login from './pages/Login/LoginPage';
 import PostFormPage from './pages/Posts/PostFormPage'
 import UserDetailScreen from './pages/UserDetail';
+import MyHome from './pages/MyHome'
 import Home from './pages/Home'
 
 function App() {
@@ -11,20 +12,29 @@ function App() {
   return (
         
         <Routes>
-          <Route path='/user/:id' element={ <Home/> }/>
+          <Route path='/' element={<Home/>}/>
           <Route path='/register' element={<RegisterPage values/>}/>
           <Route path='/login' element={<Login/>}/>
+          <Route path='/user/:id' 
+            element={ 
+              <ProtectedRoute>
+                <MyHome/>
+              </ProtectedRoute>
+          }/>
           <Route path='/profile' 
             element={
               <ProtectedRoute>
                 <UserDetailScreen/>
               </ProtectedRoute>
           }/>
-          <Route path='/posts' element={<PostFormPage/>}/>
+          <Route path='/user/:id/posts' 
+            element={
+              <ProtectedRoute>
+                <PostFormPage/>
+              </ProtectedRoute>
+            }/>
           <Route path='/posts/:id' element={<h1>post id</h1>}/>
-          <Route path='/add-post' element={<h1>add-post</h1>}/>
           <Route path='/comment' element={<h1>comment</h1>}/>
-          <Route path='/' element={<h1>Home page</h1>}/>
         </Routes>
 
 

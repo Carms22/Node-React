@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../services/AuthServices';
 import Input from '../../components/Input';
 import RegisterSchema from './RegisterSchema';
+import { useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 
 const INITIAL_VALUES = {
@@ -25,10 +27,14 @@ function RegisterPage() {
     validateOnBlur: false,
     validateOnChange: false,
   })
-
+  const { currentUser } = useContext(AuthContext);
+  if(currentUser){
+    navigate('/login', { state: { email: currentUser.email } })
+ }
   async function onSubmit(values) { 
     console.log(`Estoy en onSubmit de Formik y estos son los valores: ${values}`);
-  
+    
+    
     try {
       createUser(values);
       navigate('/login', { state: { email: values.email } });
@@ -47,7 +53,7 @@ function RegisterPage() {
  
   return (
     <div className="">
-      <div className="start-div">
+      <div className="">
         <div className="m-10 max-w-md p-5 rounded-md  bg-slate-600">
          <h1>Register</h1>
 

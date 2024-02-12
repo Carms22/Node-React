@@ -13,7 +13,7 @@ router.delete('/comments/:id',isAuthenticated, deleteComment);
 //POST
 router.get('/posts', isAuthenticated, getPosts )
 router.get('/posts/:id', isAuthenticated,getPost )
-router.post('/posts', isAuthenticated, createPosts )
+router.post('/user/:id/posts', isAuthenticated, createPosts )
 router.delete('/posts/:id', isAuthenticated,deletePosts )
 router.put('/posts/:id', isAuthenticated, editPosts )
 
